@@ -151,11 +151,5 @@ class UserWeatherTest extends TestCase
             "data"
         ]);
     }
-    // public function testGetNonExistentUserWeather()
-    // {
-    //     // Call the user weather API for a non-existent user and check the response
-    //     $response = $this->get('/');
-
-    //     $response->assertStatus(404);
-    // }
+    
 }
