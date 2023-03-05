@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[UserController::class,'index']);
+Route::get('/', [UserController::class, 'index']);
 Route::get('/{id}', [UserController::class, 'show']);
-Route::put('/forceUpdate/{id}',[UserController::class,'forceUpdate']);
-// To Flush cache at Testing
-Route::get('/flush',[UserController::class,'flush']);
-
-
-
+Route::put('/forceUpdate/{id}', [UserController::class, 'forceUpdate']);

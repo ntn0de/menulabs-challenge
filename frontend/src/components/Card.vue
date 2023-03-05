@@ -7,7 +7,6 @@
         <div class="font-medium text-slate-900">{{ title }}</div>
       </div>
       <div class="mt-1 text-slate-700">{{ value }} {{ unit }}</div>
-      <!-- <div class="mt-6 font-medium text-slate-900">621 users</div> -->
     </div>
   </div>
 </template>

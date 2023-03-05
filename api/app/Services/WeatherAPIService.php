@@ -15,11 +15,8 @@ class WeatherAPIService
         $this->baseUrl = env('WEATHER_API_URL');
     }
 
-
-
     public function getCurrentWeather($latitude, $longitude)
     {
-        // dd('dd');
         try {
             $response = Http::get($this->baseUrl . 'weather', [
                 'lat' => $latitude,

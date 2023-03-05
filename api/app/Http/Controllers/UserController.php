@@ -42,10 +42,7 @@ class UserController extends Controller
             'data' => $data,
         ], Response::HTTP_OK);
     }
-    public function flush()
-    {
-        return Cache::flush();
-    }
+    
     public function forceUpdate($id)
     {
         try {

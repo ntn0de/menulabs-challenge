@@ -30,7 +30,7 @@
             X
           </button>
         </div>
-        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 ">
+        <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
           <div class="sm:flex sm:items-start">
             <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
               <WeatherCard :weather_data="user.weather.weather_data" />
@@ -103,18 +103,6 @@
                     :value="user.weather.weather_data.clouds.all"
                     unit="%"
                   />
-                  <!-- <Card
-                    title="Rain (last 1 hr)"
-                    v-if="user.weather.weather_data.rain"
-                    :value="user.weather.weather_data.rain.1h"
-                    unit="mm"
-                  />
-                  <Card
-                    title="Rain (last 3 hrs)"
-                    v-if="user.weather.weather_data.rain"
-                    :value="user.weather.weather_data.rain.3h"
-                    unit="mm"
-                  /> -->
                 </div>
               </div>
             </div>

@@ -69,7 +69,9 @@
           :class="{
             'bg-green-200 transition duration-500 delay-100 ease-out':
               user.forceUpdating,
-            'hover:bg-gray-50': !user.forceUpdating,
+            'hover:bg-gray-50': !user.forceUpdating && !user.forceUpdatingError,
+            'bg-red-200 transition duration-500 ease-out':
+              user.forceUpdatingError,
           }"
         >
           <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -96,6 +98,12 @@
             <br />
             <i>Weather Station :</i>
             {{ moment.unix(user.weather.weather_data.dt).fromNow() }}
+           
+            <span v-if="user.updateResponse" class="text-red-300">
+            <br>
+            {{
+              user.updateResponse
+            }}</span>
           </td>
           <td class="text-center text-sm font-medium gap">
             <button
@@ -158,6 +166,7 @@
 <script>
 import UserDetail from "@/components/UserDetail.vue";
 import WeatherCard from "@/components/WeatherCard.vue";
+import axios from "axios";
 
 import moment from "moment";
 export default {
@@ -170,7 +179,6 @@ export default {
       users: null,
       selectedUser: null,
       isModalVisible: false,
-      forceUpdating: false,
       moment,
     };
   },
@@ -180,39 +188,37 @@ export default {
   },
 
   methods: {
-    async fetchData() {
+    fetchData() {
       const url = "http://localhost/";
-
-      await (
-        await fetch(url)
-      )
-        .json()
-        .then((data) => {
-          console.log(data);
-          this.users = data.data;
+      axios
+        .get(url)
+        .then((response) => {
+          this.users = response.data.data;
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     },
-    async forceUpdate(user) {
+    forceUpdate(user) {
       const url = "http://localhost/forceUpdate/" + user.id;
       user.forceUpdating = true;
-      await (
-        await fetch(url, { method: "PUT" })
-      )
-        .json()
-        .then((data) => {
-          console.log(data);
-
-          const index = this.users.findIndex((row) => row.id === data.data.id);
-
-          this.users.splice(index, 1, data.data);
-          data.data.forceUpdating = false;
+      user.updateResponse = null;
+      axios
+        .put(url)
+        .then((response) => {
+          console.log(response.data.data);
+          const index = this.users.findIndex(
+            (row) => row.id === response.data.data.id
+          );
+          this.users.splice(index, 1, response.data.data);
+          response.data.data.forceUpdating = false;
         })
         .catch((error) => {
-          console.log(error);
           user.forceUpdating = false;
+          user.forceUpdatingError = true;
+          setTimeout(() => {
+            user.forceUpdatingError = false;
+            user.updateResponse = "Recent refresh failed!";
+          }, "2000");
+          
         });
     },
     openModal(user) {

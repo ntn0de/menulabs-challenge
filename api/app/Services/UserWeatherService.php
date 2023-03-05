@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Jobs\PullWeatherDataJob;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 
@@ -75,23 +75,5 @@ class UserWeatherService
         });
         $user->weather = $weather;
         return $user;
-    }
-    private function formatUserData($user, $weatherData): array
-    {
-        return [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-            'latitude' => $user->latitude,
-            'longitude' => $user->longitude,
-            'weather' => [
-                'condition' => $weatherData['weather_data']->weather[0]->main ?? "No Updates",
-                'description' => $weatherData['weather_data']->weather[0]->description ?? "No Updates",
-                'icon' => $weatherData['weather_data']->weather[0]->icon ?? "No Updates",
-                'temperature' => $weatherData['weather_data']->main->temp ?? "0",
-                'updated_at' => $weatherData['updated_time'] ?? '1998-01-01',
-                'time_of_data' => $weatherData['weather_data']->dt ?? '1998-01-01'
-            ]
-        ];
     }
 }
