@@ -4,9 +4,9 @@ namespace App\Console\Commands;
 
 use App\Jobs\PullWeatherDataJob;
 use App\Models\User;
-use App\Services\UserWeatherService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class WeatherDataCron extends Command
 {
@@ -32,9 +32,11 @@ class WeatherDataCron extends Command
         $users = Cache::remember('users', 60 * 60, function () {
             return User::all();
         });
+
         $users->map(function ($user) {
-            $userWeatherService = app(UserWeatherService::class);
-            $userWeatherService->storeWeatherData($user);
+            Log::info('Hourly WeatherDataCron started at : ' . now());
+            Log::info("Dispatched for : " . $user->id . ' ' . $user->name);
+            PullWeatherDataJob::dispatch($user);
         });
     }
 }

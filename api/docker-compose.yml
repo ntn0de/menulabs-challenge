@@ -12,9 +12,13 @@ services:
             context: ./docker
         volumes:
             - .:/var/www/html
-        command: 'php artisan queue:work --tries=3'
-        depends_on:
-            - mysql
+        command: "php artisan queue:work --tries=3"
+    task_scheduler:
+        build:
+            context: ./docker
+        volumes:
+            - .:/var/www/html
+        command: "php artisan schedule:work"
 
     mysql:
         image: mysql:8
